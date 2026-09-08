@@ -1,0 +1,190 @@
+/* ==========================================================
+   1. TOKEN LAYER (default = Light theme)
+   Every theme below defines this EXACT same set of variable
+   names. Nothing outside this layer (and one small block for
+   the switcher UI itself) uses a hardcoded color.
+   ========================================================== */
+
+:root {
+  --color-bg: #fbfaf6;
+  --color-surface: #ffffff;
+  --color-text: #20261f;
+  --color-muted: #6b7268;
+  --color-accent: #1f6f5c;
+  --color-border: #dedace;
+  --radius-md: 10px;
+
+  --font-heading: "Fraunces", serif;
+  --font-body: "Work Sans", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem 1rem;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.theme-switcher {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* ==========================================================
+   2. THEME VARIANTS
+   :has() lets a PARENT react to the state of a descendant.
+   Here, .theme-switcher checks whether the dark/sunset radio
+   inside it is checked, and if so, redefines the same token
+   names with different values. Nothing else in the CSS needs
+   to know a theme changed at all.
+   ========================================================== */
+
+.theme-switcher:has(#theme-dark:checked) {
+  --color-bg: #14181a;
+  --color-surface: #1f2427;
+  --color-text: #edefea;
+  --color-muted: #9aa39c;
+  --color-accent: #5fd3b4;
+  --color-border: #2e3538;
+}
+
+.theme-switcher:has(#theme-sunset:checked) {
+  --color-bg: #2b1420;
+  --color-surface: #3d1b2b;
+  --color-text: #fce9da;
+  --color-muted: #d9a9a0;
+  --color-accent: #f2994a;
+  --color-border: #5a2438;
+}
+
+/* The radios live inside .theme-switcher, which is inside <body>.
+   :has() isn't limited to direct children, so body can react to
+   a checked radio anywhere below it — this keeps the whole
+   viewport (not just the card) in sync with the chosen theme. */
+body:has(#theme-dark:checked) {
+  background-color: #14181a;
+  color: #edefea;
+}
+
+body:has(#theme-sunset:checked) {
+  background-color: #2b1420;
+  color: #fce9da;
+}
+
+/* ==========================================================
+   3. THEME SWITCHER CONTROLS
+   Real radios + labels, so the switcher works with keyboard
+   (Tab, Arrow keys, Space) with no JavaScript at all.
+   ========================================================== */
+
+.theme-options {
+  display: flex;
+  gap: 0.5rem;
+  border: none;
+}
+
+.theme-options legend {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.75rem;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+/* Visually hide the raw radio circle but keep it in the
+   accessibility tree and keyboard-focusable — do NOT use
+   display:none, which removes it from both. */
+.theme-options input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.theme-options label {
+  cursor: pointer;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+/* Sibling combinator: style the label that comes right after
+   a checked radio, so the active theme's button is visibly
+   highlighted. */
+.theme-options input[type="radio"]:checked + label {
+  background-color: var(--color-accent);
+  color: var(--color-surface);
+  border-color: var(--color-accent);
+}
+
+/* Visible focus ring for keyboard users tabbing between options */
+.theme-options input[type="radio"]:focus-visible + label {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ==========================================================
+   4. PREVIEW CARD
+   Every value here comes from a token — swapping themes never
+   requires touching this block.
+   ========================================================== */
+
+.card {
+  width: min(90vw, 360px);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  text-align: center;
+}
+
+.card h2 {
+  font-family: var(--font-heading);
+  margin-bottom: 0.75rem;
+}
+
+.card p {
+  color: var(--color-muted);
+  margin-bottom: 1.5rem;
+}
+
+.card .btn {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.65rem 1.4rem;
+  border-radius: 6px;
+  border: none;
+  background-color: var(--color-accent);
+  color: var(--color-surface);
+  cursor: pointer;
+}
+
+.card .btn:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Theme Switcher</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Work+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Everything, including the radios, lives inside .theme-switcher.
+       That's the element CSS uses :has() on, so it can "see" which
+       radio is checked and swap its token layer accordingly. -->
+    <div class="theme-switcher">
+      <fieldset class="theme-options">
+        <legend>Choose a theme</legend>
+
+        <input type="radio" id="theme-light" name="theme" checked />
+        <label for="theme-light">Light</label>
+
+        <input type="radio" id="theme-dark" name="theme" />
+        <label for="theme-dark">Dark</label>
+
+        <input type="radio" id="theme-sunset" name="theme" />
+        <label for="theme-sunset">Sunset</label>
+      </fieldset>
+
+      <!-- Only ONE card in the markup — themes only ever change its
+         look via CSS variables, never its HTML. -->
+      <article class="card">
+        <h2>Weekly Digest</h2>
+        <p>
+          A short summary of what changed this week, styled entirely with design
+          tokens that swap per theme.
+        </p>
+        <button type="button" class="btn">Read more</button>
+      </article>
+    </div>
+  </body>
+</html>
